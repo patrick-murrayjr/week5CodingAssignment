@@ -18,6 +18,7 @@ class Squad {
          this.roster.splice(index, 1);
       }
    }
+
    editSquadName(newSquadName) {
       this.squadName = newSquadName;
    }
