@@ -1,12 +1,28 @@
 import Squad from "./class_modules/squad.js";
 import Hero from "./class_modules/hero.js";
 
+/*  Menu Class
+    Manages Menu for application
+    ***Requires Hero class***
+    ***Requires Squad class***
+    author: Patrick Murray
+
+*/
 class Menu {
    constructor() {
       this.squads = [];
       this.selectedSquad = null;
    }
 
+   //#region MENU METHODS
+   // APPLICATION ENTY POINT
+   /* start Method 
+      Method to drive application
+      This method calls the showMainMenuOptions method to display
+      the menu options in a prompt and then loops until the user 
+      chooses to exit. A switch is used to call the method that
+      corresponds to the user's selection  
+   */
    start() {
       let selection = this.showMainMenuOptions();
       while (selection != 0) {
@@ -32,7 +48,14 @@ class Menu {
       }
       alert("Exiting Application");
    }
-
+   /* showSquadMenu Method 
+      Method to manage user selction in the Show Squad menu
+      This method calls the showSquadMenuOptions method to display
+      the menu options in a prompt and then loops until the user 
+      chooses to return to the main menu(start).
+      A switch is used to call the method that
+      corresponds to the user's selection  
+   */
    showSquadMenu(index) {
       let selection = this.showSquadMenuOptions(index);
       while (selection != 0) {
@@ -56,6 +79,10 @@ class Menu {
       }
    }
 
+   /* showMainMenuOptions Method 
+      This method builds a string to display the options available to the user
+      and displays them in a prompt, the user's selction is then returned to the caller
+   */
    showMainMenuOptions() {
       //
       return prompt(
@@ -68,6 +95,12 @@ class Menu {
             "4) Delete Squad\n"
       );
    }
+   /* showSquadMenuOptions Method 
+      This method builds a string to display the options available to the user in the Squad menu
+      and displays them in a prompt, the user's selction is then returned to the caller.
+      The method expects an index as a argument, this index is used to display the Squad and 
+      all members of the squad roster using the getHeroList method.
+   */
    showSquadMenuOptions(index) {
       let displayString = this.getHeroList(index);
       return prompt(
@@ -80,6 +113,26 @@ class Menu {
             "3) Edit hero\n" +
             "0) Return to main menu\n"
       );
+   }
+   //#endregion MENU METHODS
+
+   //#region READ METHODS
+   showAllSquads() {
+      let squadList = "";
+      let selection = "";
+      if (this.squads.length > 0) {
+         squadList = "Please make a selection:\n-------------------------\n";
+         squadList += this.getSquadList();
+      } else {
+         squadList += "There are no Squads to display\n";
+         alert(squadList);
+         return;
+      }
+      squadList += `0) Return to main manu\n`;
+      selection = prompt(squadList);
+      if (selection > 0 && selection <= this.squads.length) {
+         this.showSquadMenu(selection);
+      }
    }
 
    getSquadList() {
@@ -101,6 +154,10 @@ class Menu {
       return heroList;
    }
 
+   //#endregion READ METHODS
+
+   //#region CREATE METHODS
+
    createSquad() {
       let newSquadName = prompt("What name shall we call our group of heroes?");
       this.squads.push(new Squad(newSquadName));
@@ -112,6 +169,10 @@ class Menu {
       const secretIdentity = prompt("What is this hero's secret identity?");
       this.squads[index - 1].addHero(new Hero(heroName, secretIdentity));
    }
+
+   //#endregion CREATE METHODS
+
+   //#region UPDATE METHODS
 
    editHeroMenu(index) {
       let heroList = "";
@@ -141,6 +202,28 @@ class Menu {
       this.squads[index].roster[selection].editHero(heroName);
    }
 
+   editSquad() {
+      let squadList = "";
+      let selection = "";
+      if (this.squads.length > 0) {
+         squadList = "Please select a Squad to edit:\n-------------------------\n";
+         squadList += this.getSquadList();
+      } else {
+         squadList += "There are no Squads to edit\n";
+         alert(squadList);
+         return;
+      }
+      squadList += `0) Return to main manu\n`;
+      selection = prompt(squadList);
+      if (selection > 0 && selection <= this.squads.length) {
+         let newSquadName = prompt("How should we rename our group of heroes?");
+         this.squads[selection - 1].editSquadName(newSquadName);
+      }
+   }
+   //#endregion UPDATE METHODS
+
+   //#region DELETE METHODS
+
    deleteHeroMenu(index) {
       let heroList = "";
       let selection = "";
@@ -169,25 +252,6 @@ class Menu {
       }
    }
 
-   editSquad() {
-      let squadList = "";
-      let selection = "";
-      if (this.squads.length > 0) {
-         squadList = "Please select a Squad to edit:\n-------------------------\n";
-         squadList += this.getSquadList();
-      } else {
-         squadList += "There are no Squads to edit\n";
-         alert(squadList);
-         return;
-      }
-      squadList += `0) Return to main manu\n`;
-      selection = prompt(squadList);
-      if (selection > 0 && selection <= this.squads.length) {
-         let newSquadName = prompt("How should we rename our group of heroes?");
-         this.squads[selection - 1].editSquadName(newSquadName);
-      }
-   }
-
    deleteSquad() {
       let squadList = "";
       let selection = "";
@@ -213,25 +277,9 @@ class Menu {
          }
       }
    }
-
-   showAllSquads() {
-      let squadList = "";
-      let selection = "";
-      if (this.squads.length > 0) {
-         squadList = "Please make a selection:\n-------------------------\n";
-         squadList += this.getSquadList();
-      } else {
-         squadList += "There are no Squads to display\n";
-         alert(squadList);
-         return;
-      }
-      squadList += `0) Return to main manu\n`;
-      selection = prompt(squadList);
-      if (selection > 0 && selection <= this.squads.length) {
-         this.showSquadMenu(selection);
-      }
-   }
+   //#endregion DELETE METHODS
 }
 
+// APPLICATION START
 let menu = new Menu();
 menu.start();
