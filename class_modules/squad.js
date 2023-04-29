@@ -2,7 +2,7 @@ import Hero from "./hero.js";
 
 /*  Squad Class
     Models a collection of Superhero objects. 
-    
+    ***Requires Hero class***
     author: Patrick Murray
 
 */
