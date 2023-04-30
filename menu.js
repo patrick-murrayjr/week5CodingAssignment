@@ -366,4 +366,5 @@ class Menu {
 
 // APPLICATION START
 let menu = new Menu();
-menu.start();
+const element = document.getElementById("startButton");
+element.addEventListener("click", () => menu.start());
