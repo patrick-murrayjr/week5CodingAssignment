@@ -14,8 +14,9 @@ class Menu {
       this.selectedSquad = null;
    }
 
-   //#region MENU METHODS
    // APPLICATION ENTY POINT
+   //#region MENU LOGIC METHODS
+
    /* start Method 
       Method to drive application
       This method calls the showMainMenuOptions method to display
@@ -48,6 +49,7 @@ class Menu {
       }
       alert("Exiting Application");
    }
+
    /* showSquadMenu Method 
       Method to manage user selction in the Show Squad menu
       This method calls the showSquadMenuOptions method to display
@@ -78,6 +80,9 @@ class Menu {
          }
       }
    }
+   //#endregion MENU LOGIC METHODS
+
+   //#region MENU DISPLAY METHODS
 
    /* showMainMenuOptions Method 
       This method builds a string to display the options available to the user
@@ -95,6 +100,7 @@ class Menu {
             "4) Delete Squad\n"
       );
    }
+
    /* showSquadMenuOptions Method 
       This method builds a string to display the options available to the user in the Squad menu
       and displays them in a prompt, the user's selction is then returned to the caller.
@@ -114,9 +120,16 @@ class Menu {
             "0) Return to main menu\n"
       );
    }
-   //#endregion MENU METHODS
+   //#endregion MENU DISPLAY METHODS
 
    //#region READ METHODS
+
+   /* showAllSquads Method
+      This method build a string to display all current squads that have been created
+      and prints them to the screen, it makes use of the getSquadList to create the list of
+      squads and prompts the user to make a selection. If no squads exist then the function
+      will use an alert to display this to the user.
+   */
    showAllSquads() {
       let squadList = "";
       let selection = "";
@@ -135,6 +148,10 @@ class Menu {
       }
    }
 
+   /* getSquadList Method 
+      This method reads the list of current squads from the squads array and returns
+      the list as a formatted string. It makes use of the Squad.viewSquad() method
+   */
    getSquadList() {
       let squadList = "";
       this.squads.forEach((squad, index) => {
@@ -143,37 +160,71 @@ class Menu {
       return squadList;
    }
 
+   /* getHeroList Method 
+      This function takes a param of index to select an existing squad in order to display
+      the roster information about that squad.
+      This method reads the list of current heroes from the roster array in the selected
+      squad and returns the information about the squad and then adds the list of heroes
+      in the roster as a formatted string.
+      It makes use of the Squad.viewSquad() and Squad.viewSquadRoster() methods
+   */
    getHeroList(index) {
       let heroList = `${this.squads[index - 1].viewSquad()}\n`;
       heroList += `${this.squads[index - 1].viewSquadRoster()}`;
       return heroList;
    }
 
+   /* getHeroListMenu Method 
+      This function takes a param of index to select an existing squad.
+      A string that lists each hero in the squad and the offset index in the roster
+      arry is returned, This is intended to be used to build a menu so that a specific
+      hero can be seleted.
+   */
    getHeroListMenu(index) {
       let heroList = `${this.squads[index - 1].viewSquadRoster()}`;
       return heroList;
    }
-
    //#endregion READ METHODS
 
    //#region CREATE METHODS
 
+   /* createSquad Method 
+      This method prompts the user for a name for a new Squad object.
+      A new Squad object is created and pushed to the squads array and then 
+      the showSquadManu is called so that the user is presented with option to
+      add/edit/delete heroes for thsi squad
+   */
    createSquad() {
       let newSquadName = prompt("What name shall we call our group of heroes?");
       this.squads.push(new Squad(newSquadName));
       this.showSquadMenu(this.squads.length);
    }
 
+   /* createHero Method
+      The method expects an index as a argument, this index is used to display the currently
+      selected squad.
+      This method prompts the user for a name and secret identity for a new Hero
+      object. A new Hero  object is then created and then the Squad.addHero method is
+      called to add the new Hero object to the currently selected squad's roster.
+   */
    createHero(index) {
       const heroName = prompt("By what name should we call this hero?");
       const secretIdentity = prompt("What is this hero's secret identity?");
       this.squads[index - 1].addHero(new Hero(heroName, secretIdentity));
    }
-
    //#endregion CREATE METHODS
 
    //#region UPDATE METHODS
 
+   /* editHeroMenu Method 
+      This method build a string to display all current heroes that have been created and 
+      exist in the roster for the currently selected squad and prints them to the screen.
+      The index param is used to select a squad.
+      It makes use of the getHeroListMenu to create the list of
+      heroes and prompts the user to make a selection. If no heroes exist then the function
+      will use an alert to display this to the user.
+      The function then calls the renameHero method to edit the properties of the currently selected hero.
+   */
    editHeroMenu(index) {
       let heroList = "";
       let selection = "";
@@ -192,6 +243,12 @@ class Menu {
       }
    }
 
+   /* renameHero Method 
+      This method allows the user to edit the heroName and secretIdentity of a selected Hero.
+      Two parameters are used; index to select the squad, and selection to select the hero.
+      The user is prompted to enter a new heroName and allows the user to optionally enter
+      a new secretIdentity. The updates are then applied using the Hero.editHero method.
+   */
    renameHero(index, selection) {
       const heroName = prompt("What should we rename this hero?");
       let changeIdentity = prompt("Change secret identity?\n1) Yes\n0) No");
@@ -202,6 +259,14 @@ class Menu {
       this.squads[index].roster[selection].editHero(heroName);
    }
 
+   /* editSquad Method 
+      This method build a string to display all current squads that have been created
+      and prints them to the screen, it makes use of the getSquadList method to create the list of
+      squads and prompts the user to make a selection. If no squads exist then the function
+      will use an alert to display this to the user.
+      The user is then prompted to enter a new squadName and the update is made with a call
+      to the Squad.editSquadName method.
+   */
    editSquad() {
       let squadList = "";
       let selection = "";
@@ -224,6 +289,17 @@ class Menu {
 
    //#region DELETE METHODS
 
+   /* deleteHeroMenu Method
+      This method build a string to display all current heroes that have been created and 
+      exist in the roster for the currently selected squad and prints them to the screen.
+      The index param is used to select a squad.
+      It makes use of the getHeroListMenu to create the list of
+      heroes and prompts the user to make a selection. If no heroes exist then the function
+      will use an alert to display this to the user.
+      The function then prompts the user for confirmation that the delete action should occur.
+      If the user confirms, then the splice method is used to remove the hero from the roster
+      array of the currently selected squad.
+   */
    deleteHeroMenu(index) {
       let heroList = "";
       let selection = "";
@@ -252,6 +328,14 @@ class Menu {
       }
    }
 
+   /* deleteSquad
+      This method build a string to display all current squads that have been created
+      and prints them to the screen, it makes use of the getSquadList method to create the list of
+      squads and prompts the user to make a selection. If no squads exist then the function
+      will use an alert to display this to the user.
+      The function then prompts the user for confirmation that the delete action should occur.
+      If the user confirms, then the splice method is used to remove the squad from the squads array.
+   */
    deleteSquad() {
       let squadList = "";
       let selection = "";
