@@ -93,11 +93,11 @@ class Menu {
       return prompt(
          "Superhero Squad Manager\n" +
             "------------------------------\n" +
-            "0) Exit\n" +
             "1) View All Squads\n" +
             "2) Create New Squad\n" +
             "3) Edit Squad\n" +
-            "4) Delete Squad\n"
+            "4) Delete Squad\n" +
+            "0) Exit\n"
       );
    }
 
