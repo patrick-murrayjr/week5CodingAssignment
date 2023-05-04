@@ -51,7 +51,7 @@ class Menu {
    }
 
    /* showSquadMenu Method 
-      Method to manage user selction in the Show Squad menu
+      Method to manage user selection in the Show Squad menu
       This method calls the showSquadMenuOptions method to display
       the menu options in a prompt and then loops until the user 
       chooses to return to the main menu(start).
@@ -86,7 +86,7 @@ class Menu {
 
    /* showMainMenuOptions Method 
       This method builds a string to display the options available to the user
-      and displays them in a prompt, the user's selction is then returned to the caller
+      and displays them in a prompt, the user's selection is then returned to the caller
    */
    showMainMenuOptions() {
       //
@@ -103,8 +103,8 @@ class Menu {
 
    /* showSquadMenuOptions Method 
       This method builds a string to display the options available to the user in the Squad menu
-      and displays them in a prompt, the user's selction is then returned to the caller.
-      The method expects an index as a argument, this index is used to display the Squad and 
+      and displays them in a prompt, the user's selection is then returned to the caller.
+      The method expects an index as an argument, this index is used to display the Squad and 
       all members of the squad roster using the getHeroList method.
    */
    showSquadMenuOptions(index) {
@@ -125,7 +125,7 @@ class Menu {
    //#region READ METHODS
 
    /* showAllSquads Method
-      This method build a string to display all current squads that have been created
+      This method builds a string to display all current squads that have been created
       and prints them to the screen, it makes use of the getSquadList to create the list of
       squads and prompts the user to make a selection. If no squads exist then the function
       will use an alert to display this to the user.
@@ -141,7 +141,7 @@ class Menu {
          alert(squadList);
          return;
       }
-      squadList += `0) Return to main manu\n`;
+      squadList += `0) Return to main menu\n`;
       selection = prompt(squadList);
       if (selection > 0 && selection <= this.squads.length) {
          this.showSquadMenu(selection);
@@ -191,7 +191,7 @@ class Menu {
    /* createSquad Method 
       This method prompts the user for a name for a new Squad object.
       A new Squad object is created and pushed to the squads array and then 
-      the showSquadManu is called so that the user is presented with option to
+      the showSquadMenu is called so that the user is presented with the option to
       add/edit/delete heroes for thsi squad
    */
    createSquad() {
@@ -201,7 +201,7 @@ class Menu {
    }
 
    /* createHero Method
-      The method expects an index as a argument, this index is used to display the currently
+      The method expects an index as an argument, this index is used to display the currently
       selected squad.
       This method prompts the user for a name and secret identity for a new Hero
       object. A new Hero  object is then created and then the Squad.addHero method is
@@ -217,7 +217,7 @@ class Menu {
    //#region UPDATE METHODS
 
    /* editHeroMenu Method 
-      This method build a string to display all current heroes that have been created and 
+      This method builds a string to display all current heroes that have been created and 
       exist in the roster for the currently selected squad and prints them to the screen.
       The index param is used to select a squad.
       It makes use of the getHeroListMenu to create the list of
@@ -231,7 +231,7 @@ class Menu {
       if (this.squads[index - 1].roster.length > 0) {
          heroList = "Please select a Hero to edit:\n-------------------------\n";
          heroList += this.getHeroListMenu(index);
-         heroList += `0) Return to main manu\n`;
+         heroList += `0) Return to main menu\n`;
       } else {
          heroList += "There are no Heroes to edit\n";
          alert(heroList);
@@ -260,7 +260,7 @@ class Menu {
    }
 
    /* editSquad Method 
-      This method build a string to display all current squads that have been created
+      This method builds a string to display all current squads that have been created
       and prints them to the screen, it makes use of the getSquadList method to create the list of
       squads and prompts the user to make a selection. If no squads exist then the function
       will use an alert to display this to the user.
@@ -278,7 +278,7 @@ class Menu {
          alert(squadList);
          return;
       }
-      squadList += `0) Return to main manu\n`;
+      squadList += `0) Return to main menu\n`;
       selection = prompt(squadList);
       if (selection > 0 && selection <= this.squads.length) {
          let newSquadName = prompt("How should we rename our group of heroes?");
@@ -290,7 +290,7 @@ class Menu {
    //#region DELETE METHODS
 
    /* deleteHeroMenu Method
-      This method build a string to display all current heroes that have been created and 
+      This method builds a string to display all current heroes that have been created and 
       exist in the roster for the currently selected squad and prints them to the screen.
       The index param is used to select a squad.
       It makes use of the getHeroListMenu to create the list of
@@ -306,7 +306,7 @@ class Menu {
       if (this.squads[index - 1].roster.length > 0) {
          heroList = "Please select a Hero to delete:\n-------------------------\n";
          heroList += this.getHeroListMenu(index);
-         heroList += `0) Return to main manu\n`;
+         heroList += `0) Return to main menu\n`;
       } else {
          heroList += "There are no Heroes to delete\n";
          alert(heroList);
@@ -329,7 +329,7 @@ class Menu {
    }
 
    /* deleteSquad
-      This method build a string to display all current squads that have been created
+      This method builds a string to display all current squads that have been created
       and prints them to the screen, it makes use of the getSquadList method to create the list of
       squads and prompts the user to make a selection. If no squads exist then the function
       will use an alert to display this to the user.
@@ -347,7 +347,7 @@ class Menu {
          alert(squadList);
          return;
       }
-      squadList += `0) Return to main manu\n`;
+      squadList += `0) Return to main menu\n`;
       selection = prompt(squadList);
       if (selection > 0 && selection <= this.squads.length) {
          let confirmation = prompt(
